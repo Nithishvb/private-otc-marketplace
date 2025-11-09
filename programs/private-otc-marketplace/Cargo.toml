@@ -1,5 +1,5 @@
 [package]
-name = "prediction-market"
+name = "private-otc-marketplace"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
