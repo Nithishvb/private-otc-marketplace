@@ -10,7 +10,8 @@ pub fn create_listing(
     token: Pubkey, 
     total_tokens: u64,
     token_amount: u64, 
-    locking_period: i64
+    locking_period: i64,
+    payment_mint: Pubkey,
 ) -> Result<()> {
     {
         let listings: &mut Account<Listing> = &mut ctx.accounts.listing;
@@ -20,6 +21,7 @@ pub fn create_listing(
         listings.locking_period = locking_period;
         listings.token_amount = token_amount;
         listings.authority = ctx.accounts.signer.key();
+        listings.payment_mint = payment_mint;
 
         let (_, escrow_bump) = Pubkey::find_program_address(
             &[b"escrow", listings.key().as_ref()],
@@ -44,6 +46,8 @@ pub fn create_listing(
             cpi_account
         );
         token::transfer(cpi_ctx, total_tokens)?;
+
+        listings.is_active = true;
     }
 
     msg!("Listing {} has been created", ctx.accounts.listing.key());

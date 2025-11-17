@@ -26,6 +26,7 @@ describe("create-listing", () => {
   it("creates a listing and deposits seller tokens into escrow", async () => {
     // 1) Create a new mint to act as the token being listed (this simulates ProjectX token)
     const decimals = 6;
+    console.log("Above mint creation")
     const mint = await createMint(
       connection,
       payer, 
@@ -33,6 +34,8 @@ describe("create-listing", () => {
       null, 
       decimals
     );
+
+    console.log("Above get associated tokens");
 
     const sellerAta = await getOrCreateAssociatedTokenAccount(
       connection,
@@ -58,6 +61,8 @@ describe("create-listing", () => {
       program.programId
     );
 
+    console.log("Abovr PDA listing pda");
+
     // Escrow PDA: seeds = [ESCROW_PDA_SEED, listingPda]
     const [escrowPda, escrowBump] = PublicKey.findProgramAddressSync(
       [ESCROW_PDA_SEED, listingPda.toBuffer()],
@@ -76,6 +81,8 @@ describe("create-listing", () => {
     const totalTokensToList = new anchor.BN(1000 * 10 ** decimals); 
     const now = Math.floor(Date.now() / 1000);
     const lockingPeriod = new anchor.BN(now + 60 * 60 * 24 * 30); 
+
+    console.log("Above create listing instruction")
 
     // 5) Call createListing
     // Provide the accounts exactly as your instruction expects.

@@ -51,5 +51,20 @@ pub struct CreateListing<'info> {
 }
 
 impl<'info> CreateListing<'info> {
-    pub const SPACE: usize = 8 + 32 + 8 + 32 + 8 + 8 + 1 + 32;
+    pub const SPACE: usize = 8 +     
+        32 +    
+        8  +    
+        32 +    
+        8  +    
+        1  +   
+        8  +    
+        32 +    
+        1  +    
+        32 +    
+        32 +    
+        8  +    
+        1  +    
+        32 +    
+        1  +   
+        32;     
 }

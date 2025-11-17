@@ -2,11 +2,11 @@ use anchor_lang::prelude::*;
 
 use accounts_ix::*;
 
-pub mod constants;
-pub mod state;
 pub mod accounts_ix;
-pub mod instructions;
+pub mod constants;
 pub mod error;
+pub mod instructions;
+pub mod state;
 
 declare_id!("8uVcSaPs6ANxnK8uSooLj8vPrjtZ6vFWgx98aw4CnWmJ");
 
@@ -15,14 +15,19 @@ pub mod private_otc_marketplace {
     use super::*;
 
     pub fn create_listing(
-        ctx: Context<CreateListing>, 
+        ctx: Context<CreateListing>,
         token: Pubkey,
         total_token: u64,
         token_amount: u64,
-        locking_period: i64
+        locking_period: i64,
+        payment_mint: Pubkey,
     ) -> Result<()> {
-        instructions::create_listing(ctx, token, total_token, token_amount, locking_period)?;   
-        Ok(())     
+        instructions::create_listing(ctx, token, total_token, token_amount, locking_period, payment_mint)?;
+        Ok(())
+    }
+
+    pub fn commit_listing(ctx: Context<CommitListing>) -> Result<()> {
+        instructions::commit_listing(ctx)?;
+        Ok(())
     }
 }
-
