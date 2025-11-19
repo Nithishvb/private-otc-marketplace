@@ -14,4 +14,8 @@ pub enum ErrorCode {
     ListingCommited,
     #[msg("Invalid payment mint")]
     InvalidPaymentMint,
+    #[msg("Invalid Buyer")]
+    InvalidBuyer,
+    #[msg("Invalid Escrow account")]
+    InvalidEscrowAccount
 }

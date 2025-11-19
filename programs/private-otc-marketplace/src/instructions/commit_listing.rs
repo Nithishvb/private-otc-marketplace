@@ -12,6 +12,10 @@ pub fn commit_listing(ctx: Context<CommitListing>) -> Result<()> {
         return Err(ErrorCode::InvalidListing.into());
     }
 
+    if listing.authority.key() == ctx.accounts.buyer_payment_token_ata.key() {
+        return Err(ErrorCode::InvalidBuyer.into());
+    }
+
     let buyer_payment_token = &ctx.accounts.buyer_payment_token_ata;
     let buyer_payment_escrow = &ctx.accounts.buyer_payment_token_account;
 
@@ -30,6 +34,12 @@ pub fn commit_listing(ctx: Context<CommitListing>) -> Result<()> {
     let (_pda, bump) = Pubkey::find_program_address(
         &[PAYMENT_ESCROW_SEEDS, listing.key().as_ref()],
         ctx.program_id,
+    );
+
+    require_keys_eq!(
+        buyer_payment_escrow.key(),
+        _pda,
+        ErrorCode::InvalidEscrowAccount
     );
 
     let signer = &ctx.accounts.signer;
